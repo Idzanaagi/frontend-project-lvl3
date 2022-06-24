@@ -32,35 +32,7 @@ const app = () => {
         } else {
           watchedState.RssForm.state = 'failed';
         }
-      })
-      .catch(() => {
-        watchedState.RssForm.state = 'failed';
       });
   });
 };
 app();
-
-/*
- form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const getForm = new FormData(e.target);
-    const newValue = getForm.get('url').trim();
-
-    const promise = validateForm(newValue, state.feedList);
-    promise
-      .then(() => {
-        if (!state.feedList.includes(newValue)) {
-          state.feedList.push(newValue);
-          state.RssForm.state = 'finished';
-        } else {
-          state.RssForm.state = 'failed';
-        }
-        render(state);
-      })
-      .catch(() => {
-        state.RssForm.state = 'failed';
-        render(state);
-      });
-  });
-};
-*/
