@@ -32,6 +32,9 @@ const app = () => {
         } else {
           watchedState.RssForm.state = 'failed';
         }
+      })
+      .catch(() => {
+        watchedState.RssForm.state = 'failed';
       });
   });
 };
