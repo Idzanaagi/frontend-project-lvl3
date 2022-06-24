@@ -1,50 +1,39 @@
 /* eslint-disable import/extensions */
-import { checkDuplication, validateForm } from './validator.js';
+// import i18next from 'i18next';
+// import onChange from 'on-change';
+// import { setLocale } from 'yup';
+// import resources from './locales/index.js';
+import validateForm from './validator.js';
+import render from './view.js';
 
 const app = () => {
-  const input = document.querySelector('#url-input');
-  const button = document.querySelector('.col-auto');
+  const form = document.querySelector('.rss-form');
 
   const state = {
-    registrationForm: {
-      valid: true,
-      feedList: [],
-      errors: [],
+    RssForm: {
+      state: '',
     },
+    feedList: [],
   };
 
-  const render = () => {
-    if (state.registrationForm.valid === true) {
-      input.style.border = null;
-      input.value = '';
-      input.focus();
-    } if (state.registrationForm.valid === false) {
-      input.style.border = 'thick solid red';
-    }
-  };
-
-  button.addEventListener('click', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const inputValue = input.value;
-    state.registrationForm.value = inputValue;
+    const getForm = new FormData(e.target);
+    const newValue = getForm.get('url').trim();
 
-    const promise = validateForm(inputValue);
+    const promise = validateForm(newValue, state.feedList);
     promise
       .then(() => {
-        if (checkDuplication(state.registrationForm.feedList, inputValue)) {
-          state.registrationForm.valid = true;
-          state.registrationForm.errors = [];
-          state.registrationForm.feedList.push(inputValue);
-          render(state);
+        if (!state.feedList.includes(newValue)) {
+          state.feedList.push(newValue);
+          state.RssForm.state = 'finished';
         } else {
-          state.registrationForm.valid = false;
-          state.registrationForm.errors.push('repeat value');
-          render(state);
+          state.RssForm.state = 'failed';
         }
+        render(state);
       })
       .catch(() => {
-        state.registrationForm.valid = false;
-        state.registrationForm.errors.push('wrong format');
+        state.RssForm.state = 'failed';
         render(state);
       });
   });
