@@ -1,9 +1,11 @@
 /* eslint-disable import/extensions */
 import i18next from 'i18next';
 import { setLocale } from 'yup';
+import axios from 'axios';
+import * as yup from 'yup';
+import getFeed from './getFeeds.js';
 import ru from './locales/index.js';
-import validateForm from './validator.js';
-// import render from './view.js';
+import getRss from './parser.js';
 import view from './view.js';
 
 const app = () => {
@@ -12,6 +14,7 @@ const app = () => {
   const state = {
     RssForm: {
       state: '',
+      errors: '',
     },
     feedList: [],
   };
@@ -41,17 +44,25 @@ const app = () => {
     const getForm = new FormData(e.target);
     const newValue = getForm.get('url').trim();
 
-    const promise = validateForm(newValue, state.feedList);
-    promise
+    const scheme = yup.string().url();
+    const promise = scheme.notOneOf(state.feedList);
+    promise.validate(newValue)
       .then(() => {
-        if (!state.feedList.includes(newValue)) {
+        if (promise) {
           state.feedList.push(newValue);
           watchedState.RssForm.state = 'finished';
         } else {
           watchedState.RssForm.state = 'failed';
         }
       })
-      .catch(() => {
+      .then(() => {
+        axios.get(getFeed(newValue))
+          .then((res) => {
+            getRss(res);
+          });
+      })
+      .catch((err) => {
+        watchedState.RssForm.errors = err.type;
         watchedState.RssForm.state = 'failed';
       });
   });
