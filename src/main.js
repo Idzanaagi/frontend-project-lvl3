@@ -3,10 +3,10 @@ import i18next from 'i18next';
 import { setLocale } from 'yup';
 import axios from 'axios';
 import * as yup from 'yup';
-import getFeed from './getFeeds.js';
 import ru from './locales/index.js';
-import getRss from './parser.js';
+import { generateRequestLink } from './validator.js';
 import view from './view.js';
+import { getRss, renderposts } from './parser.js';
 
 const app = () => {
   const form = document.querySelector('.rss-form');
@@ -38,6 +38,7 @@ const app = () => {
   });
 
   const watchedState = view(state, i18n);
+  const delay = 50000;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -56,10 +57,12 @@ const app = () => {
         }
       })
       .then(() => {
-        axios.get(getFeed(newValue))
-          .then((res) => {
-            getRss(res);
-          });
+        setTimeout(function someFunc() {
+          axios.get(generateRequestLink(newValue))
+            .then((res) => getRss(res))
+            .then((res) => renderposts(res));
+          setTimeout(someFunc, delay);
+        }, 1000);
       })
       .catch((err) => {
         watchedState.RssForm.errors = err.type;

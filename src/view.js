@@ -1,4 +1,6 @@
+/* eslint-disable import/extensions */
 import onChange from 'on-change';
+import { renderStatic } from './parser.js';
 
 const input = document.querySelector('#url-input');
 const feedback = document.querySelector('.feedback');
@@ -15,6 +17,7 @@ const view = (obj, i18n) => {
         input.focus();
         feedback.textContent = i18n.t('successful.download');
         feedback.style.color = 'green';
+        renderStatic();
       }
     }
     if (path === 'RssForm.errors') {
