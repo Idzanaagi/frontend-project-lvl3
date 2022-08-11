@@ -1,4 +1,3 @@
-import * as yup from 'yup';
+const generateRequestLink = (link) => `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(link)}`;
 
-export const scheme = yup.string().url();
-export const generateRequestLink = (link) => `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(link)}`;
+export default generateRequestLink;

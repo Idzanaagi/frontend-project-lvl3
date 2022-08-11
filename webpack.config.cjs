@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: `${__dirname}/dist`,
     filename: 'index_bundle.js',
+    clean: true,
   },
   module: {
     rules: [
