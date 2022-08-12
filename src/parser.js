@@ -120,6 +120,9 @@ export const render = (value, state) => {
       title.textContent = link.previousSibling.textContent;
       const body = document.querySelector('.modal-body');
       body.textContent = link.lastChild.textContent;
+      const linkTo = document.querySelector('.full-article');
+      const hr = link.previousSibling.href;
+      linkTo.setAttribute('href', hr);
       myModal.show();
     });
   });
