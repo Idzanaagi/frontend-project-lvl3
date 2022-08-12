@@ -1,5 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import _ from 'lodash';
+import { Modal } from 'bootstrap';
 
 export const renderStatic = () => {
   // начало рендера постов
@@ -19,7 +20,7 @@ export const renderStatic = () => {
   cardForPosts.append(divForCardBodyPosts);
 
   const ulForPosts = document.createElement('ul');
-  ulForPosts.classList.add('list-group', 'border-0', 'rounded-0');
+  ulForPosts.classList.add('list-group', 'border-0', 'rounded-0', 'posts-list');
   cardForPosts.append(ulForPosts);
   // конец рендера постов
 
@@ -51,7 +52,7 @@ const getRss = (value) => {
 };
 
 export const render = (value, state) => {
-  const ul = document.querySelector('.list-group');
+  const ul = document.querySelector('.posts-list');
   const feedsF = document.querySelector('.feed-list');
 
   const xml = getRss(value);
@@ -66,13 +67,16 @@ export const render = (value, state) => {
   if (!state.feedList.includes(getTitle)) {
     const li = document.createElement('li');
     li.classList.add('list-group', 'border-0', 'rounded-0', 'border-end-0');
+
     const h3 = document.createElement('h3');
     h3.classList.add('h6', 'm-0');
     h3.textContent = getTitle;
     li.append(h3);
+
     const p = document.createElement('p');
     p.classList.add('m-0', 'small', 'text-black-50');
     p.textContent = getDescriptionChannel;
+
     li.append(p);
     feedsF.append(li);
     state.feedList.push(getTitle);
@@ -82,16 +86,43 @@ export const render = (value, state) => {
     if (!state.posts.includes(i.querySelector('title').textContent)) {
       const title = i.querySelector('title');
       const href = i.querySelector('link');
+      const description = i.querySelector('description');
+
       const li = document.createElement('li');
       li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
       li.setAttribute('id', _.uniqueId());
+
       const a = document.createElement('a');
       a.setAttribute('href', href.textContent);
       a.textContent = title.textContent;
+
+      const myBtn = document.createElement('button');
+      myBtn.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'my-btn');
+      myBtn.textContent = 'Просмотр';
+
+      const des = document.createElement('description');
+      des.textContent = description.textContent;
+
+      myBtn.append(des);
+      des.style.display = 'none';
       li.append(a);
+      li.append(myBtn);
       ul.append(li);
       state.posts.push(i.querySelector('title').textContent);
     }
   }
+
+  const links = document.querySelectorAll('.my-btn');
+  links.forEach((link) => {
+    link.addEventListener('click', () => {
+      const myModal = new Modal(document.querySelector('#modal'));
+      const title = document.querySelector('.modal-title');
+      title.textContent = link.previousSibling.textContent;
+      const body = document.querySelector('.modal-body');
+      body.textContent = link.lastChild.textContent;
+      myModal.show();
+    });
+  });
+
   return ul;
 };
