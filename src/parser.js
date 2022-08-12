@@ -94,6 +94,7 @@ export const render = (value, state) => {
 
       const a = document.createElement('a');
       a.setAttribute('href', href.textContent);
+      a.classList.add('fw-bold');
       a.textContent = title.textContent;
 
       const myBtn = document.createElement('button');
@@ -123,6 +124,9 @@ export const render = (value, state) => {
       const linkTo = document.querySelector('.full-article');
       const hr = link.previousSibling.href;
       linkTo.setAttribute('href', hr);
+      const getA = link.parentNode.firstChild;
+      getA.removeAttribute('class');
+      getA.classList.add('fn-normal')
       myModal.show();
     });
   });
