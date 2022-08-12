@@ -57,14 +57,25 @@ export const render = (value, state) => {
   const xml = getRss(value);
   const item = xml.querySelectorAll('item');
 
-  const descr = xml.querySelector('channel');
-  const feedField = descr.firstElementChild.textContent;
+  const channel = xml.querySelector('channel');
+  const getFirstChannelElement = channel.firstElementChild;
 
-  if (!state.feedList.includes(feedField)) {
+  const getTitle = getFirstChannelElement.textContent;
+  const getDescriptionChannel = getFirstChannelElement.nextElementSibling.textContent;
+
+  if (!state.feedList.includes(getTitle)) {
     const li = document.createElement('li');
-    li.append(feedField);
+    li.classList.add('list-group', 'border-0', 'rounded-0', 'border-end-0');
+    const h3 = document.createElement('h3');
+    h3.classList.add('h6', 'm-0');
+    h3.textContent = getTitle;
+    li.append(h3);
+    const p = document.createElement('p');
+    p.classList.add('m-0', 'small', 'text-black-50');
+    p.textContent = getDescriptionChannel;
+    li.append(p);
     feedsF.append(li);
-    state.feedList.push(feedField);
+    state.feedList.push(getTitle);
   }
 
   for (const i of item) {
