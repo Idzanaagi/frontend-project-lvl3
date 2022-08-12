@@ -52,7 +52,6 @@ const app = () => {
     const promise = scheme.notOneOf(state.feedList);
 
     promise.validate(newLink)
-      // .then((res) => state.feedList.push(res))
       .then(() => watchedState.RssForm.state = 'finished')
       .catch((err) => {
         watchedState.RssForm.errors = err.type;

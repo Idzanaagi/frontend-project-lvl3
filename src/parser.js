@@ -126,7 +126,7 @@ export const render = (value, state) => {
       linkTo.setAttribute('href', hr);
       const getA = link.parentNode.firstChild;
       getA.removeAttribute('class');
-      getA.classList.add('fn-normal')
+      getA.classList.add('fn-normal');
       myModal.show();
     });
   });
