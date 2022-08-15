@@ -17,6 +17,7 @@ const app = () => {
       state: '',
       errors: '',
     },
+    linkList: [],
     feedList: [],
     posts: [],
   };
@@ -31,10 +32,12 @@ const app = () => {
   }).then(() => {
     setLocale({
       mixed: {
-        notOneOf: () => i18n.t('errors.alreadyExist'),
+        default: 'field_invalid',
       },
       string: {
         url: () => i18n.t('errors.notValidInput'),
+        matches: () => i18n.t('errors.notRss'),
+        notOneOf: () => i18n.t('errors.alreadyExist'),
       },
     });
   });
@@ -44,14 +47,16 @@ const app = () => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     const getForm = new FormData(e.target);
     const newLink = getForm.get('url').trim();
 
-    const scheme = yup.string().url();
-    const promise = scheme.notOneOf(state.feedList);
+    const scheme = yup.string().url().matches(/rss/);
+    const promise = scheme.notOneOf(state.linkList);
 
     promise.validate(newLink)
+      .then(() => watchedState.RssForm.state = 'pending')
+      .then(() => watchedState.linkList.push(newLink))
+      .then(() => watchedState.RssForm.errors = '')
       .then(() => watchedState.RssForm.state = 'finished')
       .catch((err) => {
         watchedState.RssForm.errors = err.type;
@@ -60,10 +65,10 @@ const app = () => {
 
     setTimeout(function someFunc() {
       axios.get(generateRequestLink(newLink))
-        .then((res) => render(res, state));
+        .then((res) => (res.request.status === 200 ? render(res, state) : watchedState.RssForm.errors = 'networkErr'))
+        .catch(() => watchedState.RssForm.state = 'failed');
       setTimeout(someFunc, delay);
     }, 0);
   });
 };
-
 app();

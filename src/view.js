@@ -9,7 +9,7 @@ const view = (obj, i18n) => {
   const watchedObj = onChange(obj, (path, value) => {
     if (path === 'RssForm.state') {
       if (value === 'failed') {
-        input.style.border = 'thick solid red';
+        input.style.border = 'medium solid red';
       }
       if (value === 'finished') {
         input.style.border = null;
@@ -22,9 +22,13 @@ const view = (obj, i18n) => {
     }
     if (path === 'RssForm.errors') {
       if (value === 'url') {
-        feedback.textContent = i18n.t('errors.notValidInput');
+        feedback.textContent = i18n.t('errors.notValidRss');
       } if (value === 'notOneOf') {
         feedback.textContent = i18n.t('errors.alreadyExist');
+      } if (value === 'matches') {
+        feedback.textContent = i18n.t('errors.notRss');
+      } if (value === 'network') {
+        feedback.textContent = i18n.t('errors.networkErr');
       }
       feedback.style.color = 'red';
     }
