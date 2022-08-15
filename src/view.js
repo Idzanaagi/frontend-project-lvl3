@@ -27,7 +27,7 @@ const view = (obj, i18n) => {
         feedback.textContent = i18n.t('errors.alreadyExist');
       } if (value === 'matches') {
         feedback.textContent = i18n.t('errors.notRss');
-      } if (value === 'network') {
+      } if (value === 'networkErr') {
         feedback.textContent = i18n.t('errors.networkErr');
       }
       feedback.style.color = 'red';

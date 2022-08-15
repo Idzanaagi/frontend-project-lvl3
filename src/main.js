@@ -58,6 +58,7 @@ const app = () => {
       .then(() => watchedState.linkList.push(newLink))
       .then(() => watchedState.RssForm.errors = '')
       .then(() => watchedState.RssForm.state = 'finished')
+      .then(() => console.log(state))
       .catch((err) => {
         watchedState.RssForm.errors = err.type;
         watchedState.RssForm.state = 'failed';
@@ -66,7 +67,10 @@ const app = () => {
     setTimeout(function requestGeneration() {
       axios.get(generateRequestLink(newLink))
         .then((res) => render(res, state))
-        .catch(() => watchedState.RssForm.errors = 'networkErr');
+        .catch(() => {
+          watchedState.RssForm.errors = 'networkErr';
+          watchedState.RssForm.state = 'failed';
+        });
       setTimeout(requestGeneration, delay);
     }, 0);
   });
