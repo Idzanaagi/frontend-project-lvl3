@@ -43,7 +43,7 @@ const app = () => {
   });
 
   const watchedState = view(state, i18n);
-  const delay = 50000;
+  const delay = 5000;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
