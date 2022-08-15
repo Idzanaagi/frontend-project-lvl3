@@ -22,7 +22,7 @@ const view = (obj, i18n) => {
     }
     if (path === 'RssForm.errors') {
       if (value === 'url') {
-        feedback.textContent = i18n.t('errors.notValidRss');
+        feedback.textContent = i18n.t('errors.notValidUrl');
       } if (value === 'notOneOf') {
         feedback.textContent = i18n.t('errors.alreadyExist');
       } if (value === 'matches') {

@@ -35,7 +35,7 @@ const app = () => {
         default: 'field_invalid',
       },
       string: {
-        url: () => i18n.t('errors.notValidInput'),
+        url: () => i18n.t('errors.notValidUrl'),
         matches: () => i18n.t('errors.notRss'),
         notOneOf: () => i18n.t('errors.alreadyExist'),
       },
@@ -58,21 +58,19 @@ const app = () => {
       .then(() => watchedState.linkList.push(newLink))
       .then(() => watchedState.RssForm.errors = '')
       .then(() => watchedState.RssForm.state = 'finished')
-      .then(() => console.log(state))
+      .then(() => setTimeout(function requestGeneration() {
+        axios.get(generateRequestLink(newLink))
+          .then((res) => render(res, state))
+          .catch(() => {
+            watchedState.RssForm.errors = 'networkErr';
+          });
+        setTimeout(requestGeneration, delay);
+      }, 0))
       .catch((err) => {
         watchedState.RssForm.errors = err.type;
         watchedState.RssForm.state = 'failed';
       });
-
-    setTimeout(function requestGeneration() {
-      axios.get(generateRequestLink(newLink))
-        .then((res) => render(res, state))
-        .catch(() => {
-          watchedState.RssForm.errors = 'networkErr';
-          watchedState.RssForm.state = 'failed';
-        });
-      setTimeout(requestGeneration, delay);
-    }, 0);
   });
 };
+
 app();
