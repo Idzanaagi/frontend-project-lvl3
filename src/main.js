@@ -63,11 +63,11 @@ const app = () => {
         watchedState.RssForm.state = 'failed';
       });
 
-    setTimeout(function someFunc() {
+    setTimeout(function requestGeneration() {
       axios.get(generateRequestLink(newLink))
-        .then((res) => (res.request.status === 200 ? render(res, state) : watchedState.RssForm.errors = 'networkErr'))
-        .catch(() => watchedState.RssForm.state = 'failed');
-      setTimeout(someFunc, delay);
+        .then((res) => render(res, state))
+        .catch(() => watchedState.RssForm.errors = 'networkErr');
+      setTimeout(requestGeneration, delay);
     }, 0);
   });
 };
