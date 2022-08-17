@@ -119,12 +119,39 @@ export const render = (value, state) => {
   const buttons = document.querySelectorAll('.my-btn');
 
   buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      const modal = new Modal(document.querySelector('#modal'));
+      const modalTitle = document.querySelector('.modal-title');
+      modalTitle.textContent = e.target.previousSibling.textContent;
+
+      const modalBody = document.querySelector('.modal-body');
+      modalBody.textContent = e.target.lastChild.textContent;
+
+      const a = document.querySelector('.full-article');
+      const link = e.target.previousSibling.href;
+      a.setAttribute('href', link);
+
+      const postLink = e.target.parentNode.firstChild;
+      postLink.removeAttribute('class');
+      postLink.classList.add('fn-normal');
+      modal.show();
+    });
+  });
+
+  return postsList;
+};
+
+
+/*
+ const buttons = document.querySelectorAll('.my-btn');
+
+  buttons.forEach((button) => {
     button.addEventListener('click', () => {
       const modal = new Modal(document.querySelector('#modal'));
-      const titleModal = document.querySelector('.modal-title');
-      titleModal.textContent = button.previousSibling.textContent;
-      const bodyModal = document.querySelector('.modal-body');
-      bodyModal.textContent = button.lastChild.textContent;
+      const modalTitle = document.querySelector('.modal-title');
+      modalTitle.textContent = button.previousSibling.textContent;
+      const modalBody = document.querySelector('.modal-body');
+      modalBody.textContent = button.lastChild.textContent;
       const a = document.querySelector('.full-article');
       const link = button.previousSibling.href;
       a.setAttribute('href', link);
@@ -134,6 +161,4 @@ export const render = (value, state) => {
       modal.show();
     });
   });
-
-  return postsList;
-};
+*/
