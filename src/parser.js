@@ -104,7 +104,7 @@ export const render = (value, state) => {
       button.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'my-btn');
       button.textContent = 'Просмотр';
 
-      const descriptionElement = document.createElement('description');
+      const descriptionElement = document.createElement('p');
       descriptionElement.textContent = description.textContent;
 
       button.append(descriptionElement);
@@ -140,25 +140,3 @@ export const render = (value, state) => {
 
   return postsList;
 };
-
-
-/*
- const buttons = document.querySelectorAll('.my-btn');
-
-  buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const modal = new Modal(document.querySelector('#modal'));
-      const modalTitle = document.querySelector('.modal-title');
-      modalTitle.textContent = button.previousSibling.textContent;
-      const modalBody = document.querySelector('.modal-body');
-      modalBody.textContent = button.lastChild.textContent;
-      const a = document.querySelector('.full-article');
-      const link = button.previousSibling.href;
-      a.setAttribute('href', link);
-      const postLink = button.parentNode.firstChild;
-      postLink.removeAttribute('class');
-      postLink.classList.add('fn-normal');
-      modal.show();
-    });
-  });
-*/
