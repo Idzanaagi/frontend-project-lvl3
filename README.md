@@ -18,10 +18,8 @@
 - запрограммировала скачивание и [отображение](https://github.com/Idzanaagi/frontend-project-lvl3/blob/7ad5d79b7f79fe9dbda13330e318d21690a866f7/src/parser.js) данных RSS-потока;
 - написала [автообновление](https://github.com/Idzanaagi/frontend-project-lvl3/blob/7ad5d79b7f79fe9dbda13330e318d21690a866f7/src/main.js#L48) постов в случае появления новых.
 
-<!--
-<b> Базовая функциональность </b>
-[]("C:\Users\on8d\Downloads\My HTML.gif")
+<b> Базовая функциональность: </b>
 
-Деплой - 
--->
+<img src="https://github.com/Idzanaagi/frontend-project-lvl3/blob/main/src/demo/My%20HTML.gif" />
 
+### Деплой - https://frontend-project-lvl3-idzanaagi.vercel.app/ 
