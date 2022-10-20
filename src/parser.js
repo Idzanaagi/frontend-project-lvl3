@@ -85,6 +85,15 @@ export const render = (value, state) => {
     state.feedList.push(channelTitle);
   }
 
+  Array.from(itemsList).map((item) => {
+    const newPost = {
+      title: item.querySelector('title').textContent,
+      description: item.querySelector('description').textContent,
+      link: item.querySelector('link').textContent.trim(),
+    };
+    return newPost;
+  });
+
   for (const i of itemsList) {
     if (!state.posts.includes(i.querySelector('title').textContent)) {
       const title = i.querySelector('title');
@@ -123,7 +132,6 @@ export const render = (value, state) => {
       const modal = new Modal(document.querySelector('#modal'));
       const modalTitle = document.querySelector('.modal-title');
       modalTitle.textContent = e.target.previousSibling.textContent;
-
       const modalBody = document.querySelector('.modal-body');
       modalBody.textContent = e.target.lastChild.textContent;
 
