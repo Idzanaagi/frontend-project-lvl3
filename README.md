@@ -20,6 +20,6 @@
 
 <b> Базовая функциональность: </b>
 
-<img src="https://github.com/Idzanaagi/frontend-project-lvl3/blob/main/src/demo/My%20HTML.gif" />
+<img src="https://github.com/Idzanaagi/frontend-project-lvl3/blob/main/src/demo/My%20HTML%20(1).gif" />
 
 ### Деплой - https://frontend-project-lvl3-idzanaagi.vercel.app/ 
